@@ -6,6 +6,12 @@ Gazebo, a physics based 3D simulator extensively used in the robotics world.
 
 RViz, a 3D visualizer for sensor data analysis, and robot state visualization.
 
+## Contents :
+1. Introduction
+2. Installation
+3. Forward Kinemtaics
+4. Inverse Kinematics
+
 
 Make sure you are using robo-nd VM or have Ubuntu+ROS installed locally.
 
