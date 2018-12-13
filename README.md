@@ -1,9 +1,11 @@
-# Robotic arm - Pick & Place project
-[![Udacity - Robotics NanoDegree Program](https://s3-us-west-1.amazonaws.com/udacity-robotics/Extra+Images/RoboND_flag.png)](https://www.udacity.com/robotics)
+# Robotic arm - Pick & Place project [![Udacity - Robotics NanoDegree Program](https://s3-us-west-1.amazonaws.com/udacity-robotics/Extra+Images/RoboND_flag.png)](https://www.udacity.com/robotics)
+
 Using Gazebo and RViz to simulate robotic arm "kuka-KR210" with 6 degree of freedom, and perform forward and inverse kinematics to pick an object from any shelf and place it or drop it in another place.
 
 Gazebo, a physics based 3D simulator extensively used in the robotics world.
+
 RViz, a 3D visualizer for sensor data analysis, and robot state visualization.
+
 
 Make sure you are using robo-nd VM or have Ubuntu+ROS installed locally.
 
