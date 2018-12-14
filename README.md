@@ -163,6 +163,14 @@ s = {alpha0:     0,  a0:     0,  d1:   0.75,
 
 4. now we are able to define the Homogenous Transforms function to generate Homogenous Transform matrix for each joint then we can multiply the first matrix by the second by the third and so on till we get the  total Homogenous Transform matrix.
 
+to describe the relative translation and orientation of link (i-1) to link (i)
+![T1](https://d17h27t6h515a5.cloudfront.net/topher/2017/May/592d65d7_dh-transform/dh-transform.png)
+
+![T](https://d17h27t6h515a5.cloudfront.net/topher/2017/June/593eef67_eq3/eq3.png)
+
+![T11](https://d17h27t6h515a5.cloudfront.net/topher/2017/May/592d6644_dh-transform-matrix/dh-transform-matrix.png)
+
+
 ```python
 def matrix(alpha, a, d, q):
     answer = Matrix([[             cos(q),            -sin(q),            0,              a],
@@ -301,6 +309,7 @@ theta_5 = atan2(sqrt(R3_6[0, 2]*R3_6[0, 2]+R3_6[2, 2]*R3_6[2, 2]), R3_6[1, 2])
 theta_6 = atan2(-R3_6[1, 1], R3_6[1, 0])
 ```
 ![Gazebo](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/Gazebo.png)
+![robot2](https://github.com/udacity/RoboND-Kinematics-Project/blob/master/misc_images/misc1.png)
 ![RVis](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/RVis.png)
 
 
