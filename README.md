@@ -144,6 +144,40 @@ i | alpha | a | d | theta
 
 ![DH-parameters](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/DH.png)
 
+4. now we are able to define the Homogenous Transforms function to generate Homogenous Transform matrix for each joint then we can multiply the first matrix by the second by the third and so on till we get the  total Homogenous Transform matrix.
+
+![Homogenous-Transform-matrix](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/matrix.png)
+![compinsation-of-homogeneous-transform]https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/matrices.png
+
+5. we have to Compensate for rotation discrepancy between DH parameters and Gazebo
+```python
+def rot_x(angle):
+    R_x = Matrix([[   1,                0,               0,     0],
+                [     0,       cos(angle),     -sin(angle),     0],
+                [     0,       sin(angle),      cos(angle),     0],
+                [     0,                0,               0,     1]])
+    return R_x
+
+def rot_y(angle):
+    R_y = Matrix([[   cos(angle),                0,    sin(angle),     0],
+                [             0,                1,             0,     0],
+                [   -sin(angle),                0,    cos(angle),     0],
+                [             0,                0,             0,     1]])
+    return R_y
+
+def rot_z(angle):
+    R_z = Matrix([[      cos(angle),      -sin(angle),          0,      0],
+                [       sin(angle),       cos(angle),          0,      0],
+                [                0,                0,          1,      0],
+                [                0,                0,          0,      1]])
+    return R_z
+
+
+R_corr= simplify(rot_z(np.pi) * rot_y(-np.pi/2))
+```
+```python
+T_total = simplify(T0_G * R_corr)
+```
 
 
 
