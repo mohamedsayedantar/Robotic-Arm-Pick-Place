@@ -238,8 +238,7 @@ WC = EE_position - 0.303*R_EE[:,2]
 
 This allows us to kinematically decouple the IK problem into `Inverse Position` and `Inverse Orientation`
 
-3. Inverse Position 
-for the first angle theta_1, it is between x-axis and y-axis we can use tan inverse to get it
+3. Inverse Position for the first angle theta_1, it is between x-axis and y-axis we can use tan inverse to get it
 ```python
 theta_1 = atan2(WC[1],WC[0])
 ```
@@ -268,6 +267,39 @@ angle_b = math.acos((pow(C,2) + pow(A,2) - pow(branch_B,2)) / (2 * C * A))
 theta_2 = np.pi/2 - angle_a - angle_Q
 theta_3 = np.pi/2 - angle_b - 0.03598
 ```
+
+4. for the Inverse Orientation to calculate the last three angles
+we have to calculate the rotation matrix between base link and joint 3 = `R0_3`
+then we are able to calculate `R3_6` 
+
+![Robot](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/last_angles.png)
+
+```python
+# the rotation matrix with respect to the base link
+Rrpy = R_EE
+
+R0_3 = T0_3.evalf(subs={q1: theta_1, q2: theta_2, q3: theta_3})[0:3,0:3]
+
+R3_6 = R0_3.inv() * Rrpy
+```
+
+now we can calculate the last three joints from the matrix `R3_6`
+
+![Robot](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/last_angles2.png)
+![Robot](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/last_angles3.png)
+
+```python
+theta_4 = atan2(R3_6[2, 2], -R3_6[0, 2])
+theta_5 = atan2(sqrt(R3_6[0, 2]*R3_6[0, 2]+R3_6[2, 2]*R3_6[2, 2]), R3_6[1, 2])
+theta_6 = atan2(-R3_6[1, 1], R3_6[1, 0])
+```
+
+
+
+
+
+
+
 
 
 
