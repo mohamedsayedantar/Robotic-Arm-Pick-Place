@@ -124,8 +124,12 @@ In case the demo fails, close all three terminal windows and rerun the script.
 We use the forward kinematics to calculate the final coordinate position and rotation of end-effector
 
 1. first we define our symbols 
-![Symbols](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/symbols.png)
-
+```python
+q1, q2, q3, q4, q5, q6, q7 = symbols('q1:8')
+d1, d2, d3, d4, d5, d6, d7 = symbols('d1:8')
+a0, a1, a2, a3, a4, a5, a6 = symbols('a0:7')
+alpha0, alpha1, alpha2, alpha3, alpha4, alpha5 , alpha6 = symbols('alpha0:7')
+```
 2. using the URDF file `kr210.urdf.xacro` we able to know each joint position and extract an image for the robot building the DH diagram.
 
 ![Robot](https://d17h27t6h515a5.cloudfront.net/topher/2017/July/5975d719_fk/fk.png)
@@ -142,12 +146,52 @@ i | alpha | a | d | theta
 6 | -pi/2 | 0 | 0 | theta_6
 7 | 0 | 0 | 0.303 | theta_7
 
-![DH-parameters](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/DH.png)
+```python
+s = {alpha0:     0,  a0:     0,  d1:   0.75,
+     alpha1: -pi/2,  a1:  0.35,  d2:      0, q2:  q2-pi/2,
+     alpha2:     0,  a2:  1.25,  d3:      0,
+     alpha3: -pi/2,  a3:-0.054,  d4:    1.5,
+     alpha4:  pi/2,  a4:     0,  d5:      0,
+     alpha5: -pi/2,  a5:     0,  d6:      0,
+     alpha6:     0,  a6:     0,  d7:  0.303, q7:     0}
+```
 
 4. now we are able to define the Homogenous Transforms function to generate Homogenous Transform matrix for each joint then we can multiply the first matrix by the second by the third and so on till we get the  total Homogenous Transform matrix.
 
-![Homogenous-Transform-matrix](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/matrix.png)
-![compinsation-of-homogeneous-transform]https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/matrices.png
+```python
+def matrix(alpha, a, d, q):
+    answer = Matrix([[             cos(q),            -sin(q),            0,              a],
+                     [  sin(q)*cos(alpha),  cos(q)*cos(alpha),  -sin(alpha),  -sin(alpha)*d],
+                     [  sin(q)*sin(alpha),  cos(q)*sin(alpha),   cos(alpha),   cos(alpha)*d],
+                     [                  0,                  0,            0,              1]])
+    return answer
+```
+```python
+T0_1 = matrix(alpha=alpha0, a=a0, d=d1, q=q1)
+T1_2 = matrix(alpha=alpha1, a=a1, d=d2, q=q2)
+T2_3 = matrix(alpha=alpha2, a=a2, d=d3, q=q3)
+T3_4 = matrix(alpha=alpha3, a=a3, d=d4, q=q4)
+T4_5 = matrix(alpha=alpha4, a=a4, d=d5, q=q5)
+T5_6 = matrix(alpha=alpha5, a=a5, d=d6, q=q6)
+T6_G = matrix(alpha=alpha6, a=a6, d=d7, q=q7)
+
+T0_1 = T0_1.subs(s)
+T1_2 = T1_2.subs(s)
+T2_3 = T2_3.subs(s)
+T3_4 = T3_4.subs(s)
+T4_5 = T4_5.subs(s)
+T5_6 = T5_6.subs(s)
+T6_G = T6_G.subs(s)
+
+# compinsation of homogeneous transform
+
+T0_2 = simplify(T0_1 * T1_2)
+T0_3 = simplify(T0_2 * T2_3)
+T0_4 = simplify(T0_3 * T3_4)
+T0_5 = simplify(T0_4 * T4_5)
+T0_6 = simplify(T0_5 * T5_6)
+T0_G = simplify(T0_6 * T6_G)
+```
 
 5. we have to Compensate for rotation discrepancy between DH parameters and Gazebo
 ```python
@@ -178,7 +222,17 @@ R_corr= simplify(rot_z(np.pi) * rot_y(-np.pi/2))
 ```python
 T_total = simplify(T0_G * R_corr)
 ```
+now we are able to get the position of the end-effector depending on the different theta angles.
 
+## 4- Inverse Kinematics
+
+1. first we have to get the end-effector position and the rotation matrix for it as following:
+```python
+EE_position = Matrix([[px],[py],[pz]])
+R_EE = rot_z(yaw)[0:3,0:3] * rot_y(pitch)[0:3,0:3] * rot_x(roll)[0:3,0:3] *R_corr[0:3,0:3]
+
+WC = EE_position - 0.303*R_EE[:,2]
+```
 
 
 
