@@ -133,14 +133,14 @@ We use the forward kinematics to calculate the final coordinate position and rot
 3. then we can exctract the `Denavit - Hartenberg` `DH` parameters
 
 i | alpha | a | d | theta
-- | ----- | - | - | -----
-1 |   0   | 0 | 0.75 | theta_1
-2 |   -pi/2   | 0.35 | 0 | theta_2 - pi/2
-3 |   0   | 1.25 | 0 | theta_3
-4 |   -pi/2   | -0.054 | 1.5 | theta_4
-5 |   pi/2   | 0 | 0 | theta_5
-6 |   -pi/2   | 0 | 0 | theta_6
-7 |   0   | 0 | 0.303 | theta_7
+---- | ---- | ---- | ---- | ----
+1 | 0 | 0 | 0.75 | theta_1
+2 | -pi/2 | 0.35 | 0 | theta_2 - pi/2
+3 | 0 | 1.25 | 0 | theta_3
+4 | -pi/2 | -0.054 | 1.5 | theta_4
+5 | pi/2 | 0 | 0 | theta_5
+6 | -pi/2 | 0 | 0 | theta_6
+7 | 0 | 0 | 0.303 | theta_7
 
 ![DH-parameters](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/DH.png)
 
