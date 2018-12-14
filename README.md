@@ -15,6 +15,7 @@ RViz, a 3D visualizer for sensor data analysis, and robot state visualization.
 
 ## 1- Introduction :
 The KUKA KR 210 industrial robot arm is a high payload solution for serious industrial applications. With a high payload of 210 kg and a massive reach of 2700 mm, the KR 210 KR C2 robot is ideal for a foundry setting. In fact, a foundry wrist  with IP 67 protection is available with the KR 210 KR C2 instead of the standard IP 65 wrist.
+
 Make sure you are using robo-nd VM or have Ubuntu+ROS installed locally.
     
 ![Kuka-Kr210](http://www.xpert-meca.com/web/images/tfc1.jpg)      ![Kuka-Kr210](https://www.coriolis-composites.com/tl_files/_media/images/Products/Fiber%20Placement%20Robot/ABB%20Robot/ABB_Specs_Galery.jpg)
@@ -116,4 +117,26 @@ The demo ends when the robot arm reaches at the top of the drop location.
 There is no loopback implemented yet, so you need to close all the terminal windows in order to restart.
 
 In case the demo fails, close all three terminal windows and rerun the script.
+
+
+## 3- Forward Kinemtaics :
+
+We use the forward kinematics to calculate the final coordinate position and rotation of end-effector
+
+1. first we define our symbols 
+![Symbols](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/symbols.png)
+
+2. using the URDF file `kr210.urdf.xacro` we able to know each joint position and extract an image for the robot 
+
+![Robot](https://d17h27t6h515a5.cloudfront.net/topher/2017/July/5975d719_fk/fk.png)
+
+3. then we can exctract the `Denavit - Hartenberg` `DH` parameters
+
+
+
+
+
+
+
+
 
