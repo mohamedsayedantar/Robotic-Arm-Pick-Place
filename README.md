@@ -234,9 +234,40 @@ R_EE = rot_z(yaw)[0:3,0:3] * rot_y(pitch)[0:3,0:3] * rot_x(roll)[0:3,0:3] *R_cor
 WC = EE_position - 0.303*R_EE[:,2]
 ```
 
+2. Since the last three joints in our robot are revolute and their joint axes intersect at a single point, we have a case of spherical wrist with joint_5 being the common intersection point and hence the wrist center.
 
+This allows us to kinematically decouple the IK problem into `Inverse Position` and `Inverse Orientation`
 
+3. Inverse Position 
+for the first angle theta_1, it is between x-axis and y-axis we can use tan inverse to get it
+```python
+theta_1 = atan2(WC[1],WC[0])
+```
 
+for the second and third angles we can calculate them as following
+
+![Robot](https://d17h27t6h515a5.cloudfront.net/topher/2017/August/598dce04_l21-l-inverse-kinematics-new-design-fixed/l21-l-inverse-kinematics-new-design-fixed.png)
+![Robot](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/theta_3.png)
+ 
+```python
+# for B
+WX_new = sqrt(pow(WC[0],2) + pow(WC[1],2)) - 0.35
+WZ_new = WC[2] - 0.75
+branch_B = sqrt(pow(WZ_new,2) + pow(WX_new,2))
+
+# for C and A
+C = 1.25
+A = 1.5
+
+# for the other angles we need to calculate theta_2 and theta_3
+angle_a = math.acos(( pow(branch_B,2) + pow(C,2) - pow(A,2) ) / ( 2 * branch_B * C ))
+angle_Q = atan2(WZ_new,WX_new)
+angle_b = math.acos((pow(C,2) + pow(A,2) - pow(branch_B,2)) / (2 * C * A))
+
+#for theta_2 and theta_3
+theta_2 = np.pi/2 - angle_a - angle_Q
+theta_3 = np.pi/2 - angle_b - 0.03598
+```
 
 
 
