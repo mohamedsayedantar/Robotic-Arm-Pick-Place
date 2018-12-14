@@ -113,7 +113,7 @@ def handle_calculate_IK(req):
             #print ('theta 2 = ', theta_2)
 
 
-            # ttto get theta 3 we have to calculate angle_b first as follows:-
+            # to get theta 3 we have to calculate angle_b first as follows:-
             angle_b = math.acos((pow(C,2) + pow(A,2) - pow(branch_B,2)) / (2 * C * A))
             theta_3 = np.pi/2 - angle_b - 0.03598 # 0.03598 is fixed angle = atan2(0.054,1.5)
 
