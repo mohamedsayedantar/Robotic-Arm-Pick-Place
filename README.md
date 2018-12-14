@@ -4,7 +4,12 @@ Using Gazebo and RViz to simulate robotic arm "kuka-KR210" with 6 degree of free
 
 Gazebo, a physics based 3D simulator extensively used in the robotics world.
 
+![Gazebo1](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/Gazebo1.png)
+![Gazebo2](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/Gazebo2.png)
+
 RViz, a 3D visualizer for sensor data analysis, and robot state visualization.
+![RViz1](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/RVis1.png)
+![RViz2](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/RVis2.png)
 
 ## Contents :
 1. Introduction
@@ -238,7 +243,8 @@ WC = EE_position - 0.303*R_EE[:,2]
 
 This allows us to kinematically decouple the IK problem into `Inverse Position` and `Inverse Orientation`
 
-3. Inverse Position for the first angle theta_1, it is between x-axis and y-axis we can use tan inverse to get it
+3. first `Inverse Position` 
+for the first angle theta_1, it is between x-axis and y-axis we can use tan inverse to get it
 ```python
 theta_1 = atan2(WC[1],WC[0])
 ```
@@ -268,7 +274,8 @@ theta_2 = np.pi/2 - angle_a - angle_Q
 theta_3 = np.pi/2 - angle_b - 0.03598
 ```
 
-4. for the Inverse Orientation to calculate the last three angles
+4. for the `Inverse Orientation` to calculate the last three angles
+
 we have to calculate the rotation matrix between base link and joint 3 = `R0_3`
 then we are able to calculate `R3_6` 
 
@@ -293,6 +300,8 @@ theta_4 = atan2(R3_6[2, 2], -R3_6[0, 2])
 theta_5 = atan2(sqrt(R3_6[0, 2]*R3_6[0, 2]+R3_6[2, 2]*R3_6[2, 2]), R3_6[1, 2])
 theta_6 = atan2(-R3_6[1, 1], R3_6[1, 0])
 ```
+![Gazebo](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/Gazebo.png)
+![RVis](https://github.com/mohamedsayedantar/Robotic-Arm-Pick-Place/blob/master/misc_images/RVis.png)
 
 
 
